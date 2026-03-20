@@ -1,11 +1,19 @@
-import api from "./api";
-
-export const loginUser = async (data) => {
-  const res = await api.post("/auth/login", data);
-  return res.data;
+// src/services/auth.service.js
+export const registerUser = async (data) => {
+  // Fake registration success
+  console.log("Mock register:", data);
+  // Just return success
+  return { message: "User registered successfully" };
 };
 
-export const registerUser = async (data) => {
-  const res = await api.post("/auth/register", data);
-  return res.data;
+export const loginUser = async (data) => {
+  // Mock login
+  if (data.email && data.password) {
+    return {
+      token: "mock-token-123",
+      user: { name: "Test User", email: data.email },
+    };
+  } else {
+    throw new Error("Invalid credentials");
+  }
 };
