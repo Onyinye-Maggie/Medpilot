@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { registerUser } from "../../services/auth.service";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Register = () => {
   const [form, setForm] = useState({
@@ -8,42 +8,51 @@ const Register = () => {
     email: "",
     password: "",
   });
-
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await registerUser(form);
+      alert("Registration successful! Please login.");
       navigate("/login");
     } catch (err) {
-      alert("Registration failed");
+      alert("Registration failed: " + err.message);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div style={{ padding: "20px" }}>
       <h2>Register</h2>
-
-      <input
-        placeholder="Name"
-        onChange={(e) => setForm({ ...form, name: e.target.value })}
-      />
-
-      <input
-        type="email"
-        placeholder="Email"
-        onChange={(e) => setForm({ ...form, email: e.target.value })}
-      />
-
-      <input
-        type="password"
-        placeholder="Password"
-        onChange={(e) => setForm({ ...form, password: e.target.value })}
-      />
-
-      <button type="submit">Register</button>
-    </form>
+      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px", maxWidth: "300px" }}>
+        <input
+          type="text"
+          placeholder="Name"
+          value={form.name}
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
+          required
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={form.email}
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={form.password}
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
+          required
+        />
+        <button type="submit">Register</button>
+      </form>
+      <p>
+        Already have an account?{" "}
+        <Link to="/login">Login</Link>
+      </p>
+    </div>
   );
 };
 

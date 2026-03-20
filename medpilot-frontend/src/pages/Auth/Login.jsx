@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { loginUser } from "../../services/auth.service";
 import { useAuth } from "../../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -15,28 +15,35 @@ const Login = () => {
       login(data);
       navigate("/dashboard");
     } catch (err) {
-      alert("Login failed");
+      alert("Login failed: " + err.message);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div style={{ padding: "20px" }}>
       <h2>Login</h2>
-
-      <input
-        type="email"
-        placeholder="Email"
-        onChange={(e) => setForm({ ...form, email: e.target.value })}
-      />
-
-      <input
-        type="password"
-        placeholder="Password"
-        onChange={(e) => setForm({ ...form, password: e.target.value })}
-      />
-
-      <button type="submit">Login</button>
-    </form>
+      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px", maxWidth: "300px" }}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={form.email}
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={form.password}
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
+          required
+        />
+        <button type="submit">Login</button>
+      </form>
+      <p>
+        Don't have an account?{" "}
+        <Link to="/register">Sign Up</Link>
+      </p>
+    </div>
   );
 };
 
