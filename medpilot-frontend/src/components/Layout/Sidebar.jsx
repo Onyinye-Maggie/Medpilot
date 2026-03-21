@@ -1,71 +1,46 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
-const Sidebar = ({ isOpen, toggleSidebar }) => {
+const Sidebar = ({ collapsed }) => {
   const location = useLocation();
 
-  const links = [
+  const menuItems = [
     { name: "Dashboard", path: "/dashboard" },
     { name: "Medications", path: "/medications" },
     { name: "Dose Tracker", path: "/doses" },
-    { name: "Refills", path: "/refills" },
   ];
 
   return (
-    <aside
+    <div
       style={{
-        width: isOpen ? "220px" : "60px",
+        width: collapsed ? "70px" : "200px",
         transition: "width 0.3s",
-        background: "#1e1e2f",
+        background: "#1976d2",
         color: "#fff",
-        display: "flex",
-        flexDirection: "column",
-        padding: "20px 10px",
-        minHeight: "100vh",
+        height: "100vh",
+        padding: "20px",
+        boxSizing: "border-box",
       }}
     >
-      <h2 style={{ fontSize: "18px", marginBottom: "30px", textAlign: isOpen ? "left" : "center" }}>
-        {isOpen ? "MedPilot" : "MP"}
-      </h2>
-
-      <ul style={{ listStyle: "none", padding: 0, flex: 1 }}>
-        {links.map((link) => (
-          <li key={link.path} style={{ marginBottom: "15px" }}>
+      <ul style={{ listStyle: "none", padding: 0 }}>
+        {menuItems.map((item) => (
+          <li key={item.path} style={{ margin: "20px 0" }}>
             <Link
-              to={link.path}
+              to={item.path}
               style={{
-                color: location.pathname === link.path ? "#1976d2" : "#fff",
+                color: location.pathname === item.path ? "#ffeb3b" : "#fff",
                 textDecoration: "none",
-                display: "block",
-                padding: "8px 12px",
-                borderRadius: "5px",
-                background: location.pathname === link.path ? "#fff" : "transparent",
-                color: location.pathname === link.path ? "#1976d2" : "#fff",
-                fontWeight: location.pathname === link.path ? "bold" : "normal",
-                transition: "0.2s",
+                fontWeight: location.pathname === item.path ? "bold" : "normal",
+                fontSize: collapsed ? "0" : "16px",
+                transition: "0.3s",
               }}
             >
-              {isOpen ? link.name : link.name.charAt(0)}
+              {item.name}
             </Link>
           </li>
         ))}
       </ul>
-
-      <button
-        onClick={toggleSidebar}
-        style={{
-          padding: "8px",
-          border: "none",
-          borderRadius: "5px",
-          background: "#1976d2",
-          color: "#fff",
-          cursor: "pointer",
-          marginTop: "10px",
-        }}
-      >
-        {isOpen ? "Collapse" : "Expand"}
-      </button>
-    </aside>
+    </div>
   );
 };
 

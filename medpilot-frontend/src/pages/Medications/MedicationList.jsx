@@ -34,6 +34,20 @@ const MedicationList = () => {
       name: form.name,
       dosage: form.dosage,
       schedule: form.schedule.split(",").map((t) => t.trim()),
+    }
+      <button
+  onClick={() =/> setEditModal(med)} 
+  style={
+          marginBottom: "20px",
+          padding: "8px 15px",
+          background: "#1976d2",
+          color: "#fff",
+          border: "none",
+          borderRadius: "5px",
+          cursor: "pointer",
+        }
+  Edit
+</button>
     };
 
     setMeds([newMed, ...meds]);

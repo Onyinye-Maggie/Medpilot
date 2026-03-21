@@ -1,29 +1,30 @@
 import React from "react";
-import { useAuth } from "../../hooks/useAuth";
 
-const Navbar = ({ toggleSidebar }) => {
-  const { user, logout } = useAuth();
-
-  return (
-    <nav
+const Navbar = ({ toggleSidebar }) => (
+  <div
+    style={{
+      padding: "10px 20px",
+      background: "#fff",
+      borderBottom: "1px solid #ddd",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+    }}
+  >
+    <h2 style={{ margin: 0 }}>MedPilot</h2>
+    <button
+      onClick={toggleSidebar}
       style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "10px 20px",
-        background: "#1976d2",
-        color: "white",
+        fontSize: "20px",
+        cursor: "pointer",
+        background: "none",
+        border: "none",
       }}
     >
-      <button onClick={toggleSidebar} style={{ fontSize: "20px" }}>
-        ☰
-      </button>
-      <div>
-        <span style={{ marginRight: "15px" }}>Hello, {user?.name || "Guest"}</span>
-        {user && <button onClick={logout}>Logout</button>}
-      </div>
-    </nav>
-  );
-};
+      ☰
+    </button>
+  </div>
+);
 
 export default Navbar;
