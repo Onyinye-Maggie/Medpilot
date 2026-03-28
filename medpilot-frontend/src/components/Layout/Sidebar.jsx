@@ -1,6 +1,12 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Pill, ClipboardList } from "lucide-react";
+import {
+  LayoutDashboard,
+  Pill,
+  ClipboardList,
+  Settings,
+  LogOut,
+} from "lucide-react";
 
 const Sidebar = ({ collapsed }) => {
   const location = useLocation();
@@ -21,54 +27,108 @@ const Sidebar = ({ collapsed }) => {
       path: "/doses",
       icon: <ClipboardList size={20} />,
     },
+    {
+      name: "Settings",
+      path: "/settings",
+      icon: <Settings size={20} />,
+    },
   ];
 
   return (
     <div
       style={{
-        width: collapsed ? "70px" : "220px",
-        transition: "width 0.3s",
-        background: "#1976d2",
-        color: "#fff",
+        width: collapsed ? "70px" : "230px",
         height: "100vh",
+        background: "#00AD85",
+        color: "#fff",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        transition: "0.3s",
         padding: "20px 10px",
-        boxSizing: "border-box",
       }}
     >
-      <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-        {menuItems.map((item) => {
-          const isActive = location.pathname === item.path;
+      {/* TOP SECTION */}
+      <div>
+        <h2 style={{ textAlign: collapsed ? "center" : "left" }}>
+          {collapsed ? "M" : "MedPilot"}
+        </h2>
 
-          return (
-            <li key={item.path} style={{ margin: "20px 0" }}>
-              <Link
-                to={item.path}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  padding: "10px",
-                  borderRadius: "8px",
-                  textDecoration: "none",
-                  color: "#fff",
-                  background: isActive ? "rgba(255,255,255,0.2)" : "transparent",
-                  transition: "0.2s",
-                }}
-              >
-                {/* Icon always visible */}
-                <span>{item.icon}</span>
+        <ul style={{ listStyle: "none", padding: 0, marginTop: "30px" }}>
+          {menuItems.map((item) => {
+            const isActive = location.pathname === item.path;
 
-                {/* Text hides when collapsed */}
-                {!collapsed && (
-                  <span style={{ fontSize: "14px", fontWeight: "500" }}>
-                    {item.name}
-                  </span>
-                )}
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
+            return (
+              <li key={item.path} style={{ marginBottom: "15px" }}>
+                <Link
+                  to={item.path}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "12px",
+                    padding: "10px",
+                    borderRadius: "8px",
+                    textDecoration: "none",
+                    color: "#fff",
+                    background: isActive
+                      ? "rgba(255,255,255,0.2)"
+                      : "transparent",
+                  }}
+                >
+                  {/* ✅ ICON */}
+                  {item.icon}
+
+                  {/* TEXT (hidden when collapsed) */}
+                  {!collapsed && <span>{item.name}</span>}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+
+      {/* BOTTOM SECTION */}
+      <div>
+        {/* USER */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            marginBottom: "15px",
+          }}
+        >
+          <div
+            style={{
+              width: "35px",
+              height: "35px",
+              borderRadius: "50%",
+              background: "#fff",
+            }}
+          />
+          {!collapsed && <span>John Doe</span>}
+        </div>
+
+        {/* LOGOUT */}
+        <button
+          style={{
+            width: "100%",
+            padding: "10px",
+            background: "#E74C3C",
+            border: "none",
+            borderRadius: "6px",
+            color: "#fff",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "8px",
+          }}
+        >
+          <LogOut size={18} />
+          {!collapsed && "Logout"}
+        </button>
+      </div>
     </div>
   );
 };

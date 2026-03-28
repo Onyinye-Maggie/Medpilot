@@ -4,8 +4,7 @@ import Dashboard from "../pages/Dashboard/Dashboard"; // <- fixed path
 import MedicationList from "../pages/Medications/MedicationList";
 import DoseTracker from "../pages/Doses/DoseTracker";
 import Login from "../pages/Auth/Login";
-import SignUp from "../pages/Auth/Register";
-
+import Register from "../pages/Auth/Register";
 const AppRoutes = () => {
   return (
     <Routes>

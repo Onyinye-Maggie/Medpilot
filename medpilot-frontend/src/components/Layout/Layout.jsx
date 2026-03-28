@@ -1,62 +1,70 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
+import Navbar from "./Navbar";
 
 const Layout = ({ children }) => {
-  const [collapsed, setCollapsed] = useState(() => {
-    const saved = localStorage.getItem("sidebar");
-    return saved ? JSON.parse(saved) : false;
-  });
-
+  const [collapsed, setCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [showSidebar, setShowSidebar] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+
+      if (!mobile) setShowSidebar(true);
     };
+
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const toggleSidebar = () => {
-    const newState = !collapsed;
-    setCollapsed(newState);
-    localStorage.setItem("sidebar", JSON.stringify(newState));
+    if (isMobile) {
+      setShowSidebar(!showSidebar);
+    } else {
+      setCollapsed(!collapsed);
+    }
   };
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", background: "#f5f5f5" }}>
+    <div style={{ display: "flex", minHeight: "100vh", background: "#F5F7FA" }}>
       
-      {/* Sidebar */}
-      <div
-        style={{
-          position: isMobile ? "fixed" : "relative",
-          zIndex: 1000,
-        }}
-      >
-        <Sidebar collapsed={isMobile ? collapsed : collapsed} />
-      </div>
-
-      {/* Overlay for mobile */}
-      {isMobile && !collapsed && (
+      {/* OVERLAY (mobile only) */}
+      {isMobile && showSidebar && (
         <div
-          onClick={toggleSidebar}
+          onClick={() => setShowSidebar(false)}
           style={{
             position: "fixed",
             top: 0,
             left: 0,
-            width: "100vw",
-            height: "100vh",
+            width: "100%",
+            height: "100%",
             background: "rgba(0,0,0,0.3)",
             zIndex: 999,
           }}
         />
       )}
 
-      {/* Main */}
-      <div style={{ flex: 1 }}>
+      {/* SIDEBAR */}
+      <div
+        style={{
+          position: isMobile ? "fixed" : "relative",
+          transform:
+            isMobile && !showSidebar ? "translateX(-100%)" : "translateX(0)",
+          transition: "transform 0.3s ease",
+          zIndex: 1000,
+        }}
+      >
+        <Sidebar collapsed={collapsed} />
+      </div>
+
+      {/* MAIN */}
+      <div style={{ flex: 1, width: "100%" }}>
         <Navbar toggleSidebar={toggleSidebar} />
-        <main style={{ padding: "15px" }}>{children}</main>
+
+        <div style={{ padding: "20px" }}>{children}</div>
       </div>
     </div>
   );
